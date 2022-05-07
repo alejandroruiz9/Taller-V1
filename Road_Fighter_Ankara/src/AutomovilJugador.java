@@ -4,26 +4,34 @@ import java.awt.geom.Rectangle2D;
 public class AutomovilJugador extends Automovil {
 	private boolean modoFantasma;
 	private double coolDown;
-	private int velocidadMinima=2;
+
 	
-	public AutomovilJugador(/*int forma,*/int color,double velocidad,Punto posicion,double tamanioX, double tamanioY, double coolDown) {
+	public AutomovilJugador(int color,double velocidad,Rectangle2D.Double auto , double coolDown) {
 		super();
-		this.forma= new Rectangle2D.Double(posicion.getX(), posicion.getY(),tamanioX, tamanioY );
+		this.auto= auto;
 		this.color= color;
 		this.velocidad= velocidad;
-		this.posicion= posicion;
-		this.tamanioX= tamanioX;
-		this.tamanioY=tamanioY;
 		this.modoFantasma=false;
 		this.coolDown=coolDown;
 	}
 
-	
-	@Override
-	public void chocar() {
-		System.out.println("Choque");
-		frenar(3);
-		moverse(-1);
+	public void chocar(Automovil otroAuto) {
+		System.out.println(this.getClass().toString() + ": Choque");
+		int setidoChoque=1;
+		if(auto.x > otroAuto.getAuto().x) {
+			setidoChoque=-1;
+		}
+		otroAuto.perderControl(setidoChoque);
+		this.perderControl(setidoChoque * -1);
+		
+		if(auto.y > otroAuto.getAuto().y) {
+			this.acelerar();
+			otroAuto.frenar(3);
+		}
+		else {
+			otroAuto.acelerar();
+			this.frenar(3);
+		}	
 	}
 
 	@Override
@@ -33,37 +41,28 @@ public class AutomovilJugador extends Automovil {
 	}
 
 	@Override
-	public void perderControl() {
+	public void perderControl(int sentido) {
+		auto.x+=sentido;
 		
-		
+		System.out.println(this.getClass().toString() + ": Perdi el control por un choque y ahora estoy en la posicion X: " + auto.x);
 	}
 	
 	public void moverse(int sentido) {
-		posicion.setX(sentido);
+		auto.x+=sentido;
 		
-		System.out.println("Me movi y ahora estoy en la posicion X: " + posicion.getX());
+		System.out.println("Jugador: Me movi y ahora estoy en la posicion X: " + auto.x);
 	}
 
-	public void acelerar() {
-		
-		
-	}
 
-	public void frenar(int fuerzaFrenado) {
-		if(velocidad - fuerzaFrenado >= velocidadMinima)
-			velocidad-=fuerzaFrenado;
-		else
-			return;
-		
-		System.out.println("Frene y mi velocidad ahora es " + velocidad);
-	}
+
+
 	public void iniciarHabilidad() {
 		
 		
 	}
 
 	public boolean interseccion(Automovil otroAuto) {
-		if(this.forma.getBounds2D().intersects(otroAuto.getForma().getBounds2D()))
+		if(this.auto.getBounds2D().intersects(otroAuto.getAuto().getBounds2D()))
 			return true;
 		else
 			return false;

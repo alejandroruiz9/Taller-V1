@@ -1,22 +1,13 @@
 import java.awt.geom.Rectangle2D;
 
 public class AutomovilBot extends Automovil {
+
 	
-	
-	public AutomovilBot(int color,double velocidad,Punto posicion,double tamanioX, double tamanioY) {
+	public AutomovilBot(int color,double velocidad,Rectangle2D.Double auto ) {
 		super();
-		this.forma= new Rectangle2D.Double(posicion.getX(), posicion.getY(),tamanioX, tamanioY );
+		this.auto= auto;
 		this.color= color;
 		this.velocidad= velocidad;
-		this.posicion= posicion;
-		this.tamanioX= tamanioX;
-		this.tamanioY=tamanioY;
-	}
-
-	@Override
-	public void chocar() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -25,15 +16,12 @@ public class AutomovilBot extends Automovil {
 		
 	}
 
-	@Override
-	public void perderControl() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
-	public void avanzar() {
-		// TODO Auto-generated method stub
+	public void perderControl(int sentido) {
+		auto.x+=sentido;
+		
+		System.out.println(this.getClass().toString() + ": Perdi el control por un choque y ahora estoy en la posicion X " + auto.x);
 		
 	}
 

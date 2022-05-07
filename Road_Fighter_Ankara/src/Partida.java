@@ -15,33 +15,30 @@ public class Partida {
 		this.listaJugadores = listaJugadores;
 	}
 
-	public boolean validarChoque(AutomovilJugador jugador) {
+	public void validarChoque(AutomovilJugador jugador) {
 		
 		for (AutomovilJugador jugadores : listaJugadores) {
 			if(jugador.interseccion(jugadores) && jugador != jugadores)
-				return true;
+				jugador.chocar(jugadores);
 		}
 
 		for (AutomovilBot bot : listaBots) {
 			if(jugador.interseccion(bot))
-				return true;
+				jugador.chocar(bot);
 		}
 		
-		return false;
 	}
 	
-	public boolean validarExplosion(AutomovilJugador jugador) {
+	public void validarExplosion(AutomovilJugador jugador) {
 		
-		double posicionJugador= jugador.getPosicion().getX();
+		double posicionJugador= jugador.auto.getX();
 		if(posicionJugador >= mapa.getLimiteDerecho() || posicionJugador<= mapa.getLimiteIzquierdo() )
-			return true;
-		
-		return false;
+			jugador.explotar();
 	}
 
 	public boolean partidaEnCurso() {
 		for (AutomovilJugador jugadores : listaJugadores) {
-			if(jugadores.getPosicion().getY() >= mapa.getLongitud())
+			if(jugadores.auto.getY() >= mapa.getLongitud())
 				return false;
 		}
 		return true;
