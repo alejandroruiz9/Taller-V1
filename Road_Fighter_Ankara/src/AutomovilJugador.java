@@ -36,8 +36,8 @@ public class AutomovilJugador extends Automovil {
 
 	@Override
 	public void explotar() {
-		
-		
+		System.out.println(this.getClass().toString() + ": Explote");
+		this.auto.x-=2;
 	}
 
 	@Override
@@ -47,10 +47,10 @@ public class AutomovilJugador extends Automovil {
 		System.out.println(this.getClass().toString() + ": Perdi el control por un choque y ahora estoy en la posicion X: " + auto.x);
 	}
 	
-	public void moverse(int sentido) {
+	public void moverse(double sentido) {
 		auto.x+=sentido;
 		
-		System.out.println("Jugador: Me movi y ahora estoy en la posicion X: " + auto.x);
+		System.out.println(this.getClass().toString() + ": Me movi y ahora estoy en la posicion X: " + auto.x);
 	}
 
 

@@ -30,12 +30,12 @@ public class Main {
 		while(partida.partidaEnCurso()) {
 			jugador1.avanzar();
 			jugador1.acelerar();
+			jugador1.moverse(0.5);
+			
+			
 			partida.validarChoque(jugador1);
-			partida.validarExplosion(jugador1);
-				
-			
-			
+			partida.validarExplosion();
 		}
-		
+		System.out.println("Finalizo la partida");
 	}
 }

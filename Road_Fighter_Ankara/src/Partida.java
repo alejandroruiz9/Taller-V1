@@ -29,18 +29,28 @@ public class Partida {
 		
 	}
 	
-	public void validarExplosion(AutomovilJugador jugador) {
+	public void validarExplosion() {
+		for (AutomovilJugador jugadores : listaJugadores) {
+			double posicionJugador= jugadores.auto.getX();
+			if(posicionJugador >= mapa.getLimiteDerecho() || posicionJugador<= mapa.getLimiteIzquierdo() )
+				jugadores.explotar();
+		}
 		
-		double posicionJugador= jugador.auto.getX();
-		if(posicionJugador >= mapa.getLimiteDerecho() || posicionJugador<= mapa.getLimiteIzquierdo() )
-			jugador.explotar();
 	}
 
 	public boolean partidaEnCurso() {
 		for (AutomovilJugador jugadores : listaJugadores) {
-			if(jugadores.auto.getY() >= mapa.getLongitud())
+			if(jugadores.auto.getY() >= mapa.getLongitud()) {
 				return false;
+				//finalizarPartida();
+			}
+				
 		}
 		return true;
+	}
+
+	private void finalizarPartida() {
+		
+		
 	}
 }
