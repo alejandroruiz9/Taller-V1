@@ -1,5 +1,7 @@
 
 import java.awt.geom.Rectangle2D;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class AutomovilJugador extends Automovil {
 	private boolean modoFantasma;
@@ -57,7 +59,20 @@ public class AutomovilJugador extends Automovil {
 
 
 	public void iniciarHabilidad() {
+		modoFantasma=true;
 		
+		Timer timer = new Timer();
+
+		TimerTask tarea = new TimerTask() {
+			
+			@Override
+			public void run() {
+				modoFantasma=false;
+				System.out.println(modoFantasma);
+			}
+		};
+		
+		timer.schedule(tarea, 7000);
 		
 	}
 
