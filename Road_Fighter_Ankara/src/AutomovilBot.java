@@ -3,11 +3,12 @@ import java.awt.geom.Rectangle2D;
 public class AutomovilBot extends Automovil {
 
 	
-	public AutomovilBot(int color,double velocidad,Rectangle2D.Double auto ) {
+	public AutomovilBot(int color,double x, double y) {
 		super();
-		this.auto= auto;
+		this.x=x;//posicion inicial en x
+		this.y=y;//posicion inicial en y
 		this.color= color;
-		this.velocidad= velocidad;
+		this.velocidad=30;//Los automóvil Bot tienen una velocidad constante
 	}
 
 	@Override
@@ -16,13 +17,10 @@ public class AutomovilBot extends Automovil {
 		
 	}
 
-
 	@Override
 	public void perderControl(int sentido) {
-		auto.x+=sentido;
-		
-		System.out.println(this.getClass().toString() + ": Perdi el control por un choque y ahora estoy en la posicion X " + auto.x);
-		
+		this.x+=sentido;
+				
 	}
 
 }

@@ -6,53 +6,60 @@ import java.util.TimerTask;
 public class AutomovilJugador extends Automovil {
 	private boolean modoFantasma;
 	private double coolDown;
+	private double duracionSkill;
+	
 
 	
-	public AutomovilJugador(int color,double velocidad,Rectangle2D.Double auto , double coolDown) {
+	public AutomovilJugador(int color,double x, double y) {
 		super();
-		this.auto= auto;
-		this.color= color;
-		this.velocidad= velocidad;
-		this.modoFantasma=false;
-		this.coolDown=coolDown;
+		this.x=x;//posicion inicial en x
+		this.y=y;//posicion inicial en y
+		this.modoFantasma = false;
+		this.coolDown=25;
+		this.duracionSkill=7;
+		this.velocidad=0;
+		this.color=color;
 	}
 
 	public void chocar(Automovil otroAuto) {
 		System.out.println(this.getClass().toString() + ": Choque");
-		int setidoChoque=1;
-		if(auto.x > otroAuto.getAuto().x) {
-			setidoChoque=-1;
-		}
-		otroAuto.perderControl(setidoChoque);
-		this.perderControl(setidoChoque * -1);
+		int sentidoChoque=1;
 		
-		if(auto.y > otroAuto.getAuto().y) {
+		//verifico de donde proviene el choque (del lado izquierdo o derecho)
+		//para determinar hacia que sentido hacer el efecto.
+		if(this.x > otroAuto.x) {
+			sentidoChoque=-1;
+		}
+		otroAuto.perderControl(sentidoChoque);
+		this.perderControl(sentidoChoque * -1);
+		
+		//Verifico si el choque es trasero o delantero.
+		if(this.y > otroAuto.y) {
 			this.acelerar();
-			otroAuto.frenar(3);
+			otroAuto.frenar();
 		}
 		else {
 			otroAuto.acelerar();
-			this.frenar(3);
+			this.frenar();
 		}	
 	}
 
 	@Override
 	public void explotar() {
 		System.out.println(this.getClass().toString() + ": Explote");
-		this.auto.x-=2;
+		this.x-=2;
 	}
 
 	@Override
 	public void perderControl(int sentido) {
-		auto.x+=sentido;
+		this.x+=sentido;
 		
-		System.out.println(this.getClass().toString() + ": Perdi el control por un choque y ahora estoy en la posicion X: " + auto.x);
 	}
 	
 	public void moverse(double sentido) {
-		auto.x+=sentido;
 		
-		System.out.println(this.getClass().toString() + ": Me movi y ahora estoy en la posicion X: " + auto.x);
+		this.x+=sentido;
+		
 	}
 
 
@@ -61,28 +68,67 @@ public class AutomovilJugador extends Automovil {
 	public void iniciarHabilidad() {
 		modoFantasma=true;
 		
+		System.out.println("Start skill");
+		
 		Timer timer = new Timer();
 
 		TimerTask tarea = new TimerTask() {
 			
 			@Override
 			public void run() {
-				modoFantasma=false;
-				System.out.println(modoFantasma);
+				duracionSkill--;
+				System.out.println("Duracion Skill:" + duracionSkill);
+				
+				if(duracionSkill==0) {
+					timer.cancel();
+				}
+				
 			}
 		};
 		
-		timer.schedule(tarea, 7000);
+		timer.scheduleAtFixedRate(tarea, 0, 1000);
+		
+		Timer timerCooldown = new Timer();
+		
+		
+		System.out.println("Start Cooldown");
+			
+		TimerTask tarea2 = new TimerTask() {
+				
+			@Override
+			public void run() {
+				coolDown--;
+				System.out.println("Cooldown: "+coolDown);
+					
+				if(coolDown==0) {
+					timerCooldown.cancel();
+				}
+					
+			}
+		};
+			
+			timerCooldown.scheduleAtFixedRate(tarea2,0,1000);
+
+		
+
 		
 	}
 
-	public boolean interseccion(Automovil otroAuto) {
-		if(this.auto.getBounds2D().intersects(otroAuto.getAuto().getBounds2D()))
-			return true;
-		else
-			return false;
-	}
+//	public boolean interseccion(Automovil otroAuto) {
+//		
+//		if(modoFantasma = true) {
+//			return false;
+//		}
+//		
+//		if(this.auto.getBounds2D().intersects(otroAuto.getAuto().getBounds2D()))
+//			return true;
+//		else
+//			return false;
+//	}
 	
-
+//	@Override
+//	public String toString() {
+//		return ("Posicion: "+this.auto.y);
+//	}
 
 }
