@@ -1,13 +1,11 @@
 
 import java.awt.geom.Rectangle2D;
 
-public abstract class Automovil {
+public abstract class Automovil extends ComponenteDeMapa {
 	protected int color;
 	protected double velocidad;
 	private final int VELOCIDAD_MINIMA = 2;
 	private final int VELOCIDAD_MAXIMA = 50;
-	protected double x;
-	protected double y;
 
 	//public abstract void chocar(Automovil otroAuto);
 	public abstract void explotar();
@@ -36,17 +34,27 @@ public abstract class Automovil {
 			}
 		}
 	}
+	public void chocar(ComponenteDeMapa chocado) {
+		System.out.println(this.getClass().toString() + ": Choque");
+		chocado.serChocado(this);
+	}
+	@Override
+	public void serChocado(Automovil chocador) {
+		//verifico de donde proviene el choque (del lado izquierdo o derecho)
+		//para determinar hacia que sentido hacer el efecto.
+		int sentidoChoque=1;
+		if(this.posicion.getX() > chocador.posicion.getX()) {
+			sentidoChoque=-1;
+			}
+		this.perderControl(sentidoChoque);
+		this.acelerar();
+		chocador.frenar();
+		chocador.perderControl(sentidoChoque * -1);
+		}
 	
 	public double getVelocidad() {
 		return velocidad;
 	}
 	
-	public double getX() {
-		return x;
-	}
-	
-	public double getY() {
-		return y;
-	}
 
 }

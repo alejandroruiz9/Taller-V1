@@ -19,7 +19,7 @@ public class Punto {
 		this.y+=desY;
 	}
 	
-	public void setX(double desX) {
+	public void sumarX(double desX) {
 		this.x+=desX;
 	}
 

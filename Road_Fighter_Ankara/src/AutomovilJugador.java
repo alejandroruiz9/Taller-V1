@@ -1,5 +1,5 @@
 
-import java.awt.geom.Rectangle2D;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -10,10 +10,9 @@ public class AutomovilJugador extends Automovil {
 	
 
 	
-	public AutomovilJugador(int color,double x, double y) {
+	public AutomovilJugador(int color,Punto posicion) {
 		super();
-		this.x=x;//posicion inicial en x
-		this.y=y;//posicion inicial en y
+		this.posicion=posicion;
 		this.modoFantasma = false;
 		this.coolDown=25;
 		this.duracionSkill=7;
@@ -21,44 +20,24 @@ public class AutomovilJugador extends Automovil {
 		this.color=color;
 	}
 
-	public void chocar(Automovil otroAuto) {
-		System.out.println(this.getClass().toString() + ": Choque");
-		int sentidoChoque=1;
-		
-		//verifico de donde proviene el choque (del lado izquierdo o derecho)
-		//para determinar hacia que sentido hacer el efecto.
-		if(this.x > otroAuto.x) {
-			sentidoChoque=-1;
-		}
-		otroAuto.perderControl(sentidoChoque);
-		this.perderControl(sentidoChoque * -1);
-		
-		//Verifico si el choque es trasero o delantero.
-		if(this.y > otroAuto.y) {
-			this.acelerar();
-			otroAuto.frenar();
-		}
-		else {
-			otroAuto.acelerar();
-			this.frenar();
-		}	
-	}
+
 
 	@Override
 	public void explotar() {
 		System.out.println(this.getClass().toString() + ": Explote");
-		this.x-=2;
+		this.velocidad=0;
+
 	}
 
 	@Override
 	public void perderControl(int sentido) {
-		this.x+=sentido;
+		this.posicion.sumarX(sentido);
 		
 	}
 	
 	public void moverse(double sentido) {
 		
-		this.x+=sentido;
+		this.posicion.sumarX(sentido);
 		
 	}
 
