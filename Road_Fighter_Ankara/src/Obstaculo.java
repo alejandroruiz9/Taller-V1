@@ -1,9 +1,8 @@
 
 public class Obstaculo extends ComponenteDeMapa {
 
-
-	public Obstaculo(Punto posicion) {
-		super();
+	public Obstaculo(int color, Punto posicion) {
+		super(color, posicion);
 		this.posicion = posicion;
 	}
 
@@ -11,6 +10,4 @@ public class Obstaculo extends ComponenteDeMapa {
 	public void serChocado(Automovil chocador) {
 		chocador.explotar();
 	}
-	
-	
 }
